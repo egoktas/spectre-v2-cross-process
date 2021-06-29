@@ -158,7 +158,7 @@ void leak_secret_byte() {
   for (tries = 999; tries > 0; tries--) {
     send_cmd('0', 50);
     flush_all();
-    send_cmd('1', 50);
+    send_cmd('1', 1);
     probe_all();
   }
   dump_result();
